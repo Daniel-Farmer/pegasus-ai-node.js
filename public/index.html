@@ -4,16 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pegasus AI Dashboard</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-        #chatbox { height: 300px; border: 1px solid #ddd; overflow-y: scroll; padding: 10px; margin-bottom: 10px; }
-        #userinput { width: 70%; padding: 5px; }
-        #sendbtn { padding: 5px 15px; }
-        .user { color: blue; }
-        .assistant { color: green; }
-    </style>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/topbar.css">
+    <link rel="stylesheet" href="css/chat.css">
 </head>
 <body>
+    <div class="topbar">
+        <div class="logo-container">
+            <img src="images/logo.png" alt="Logo" class="logo">
+            <div class="logo-text">
+                <span class="logo-title">Pegasus Panel</span>
+                <span class="logo-slogan">Fearless Innovation</span>
+            </div>
+        </div>
+        <div class="ai-model-selector">
+            <label for="ai-model">AI Model:</label>
+            <select id="ai-model">
+                <option value="llama2">Llama 2</option>
+                <option value="codellama">Code Llama</option>
+                <option value="mistral">Mistral</option>
+            </select>
+        </div>
+    </div>
+
     <h1>Pegasus AI Dashboard</h1>
     <div id="chatbox"></div>
     <input type="text" id="userinput" placeholder="Type your message here...">
