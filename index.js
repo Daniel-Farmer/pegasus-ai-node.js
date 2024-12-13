@@ -1,52 +1,54 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import Pegasus from './pegasus.js';
+import { Pegasus } from './pegasus.js';
 
-dotenv.config();
-
-const app = express();
-app.use(express.json());
+export const config = {
+  runtime: 'edge',
+};
 
 const OLLAMA_API_URL = process.env.OLLAMA_API_URL || 'http://localhost:11434';
 const pegasus = new Pegasus(OLLAMA_API_URL);
 
-// Root route
-app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to Pegasus AI API' });
-});
-
-app.post('/api/chat', async (req, res) => {
-  const { message } = req.body;
-  if (!message) {
-    return res.status(400).json({ error: 'Message is required' });
+export default async function handler(req) {
+  if (req.method === 'GET' && new URL(req.url).pathname === '/') {
+    return new Response(JSON.stringify({ message: 'Welcome to Pegasus AI API' }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 
-  try {
-    const response = await pegasus.generate_response(message);
-    res.json({ response });
-  } catch (error) {
-    console.error('Error in chat route:', error);
-    res.status(500).json({ error: 'An error occurred while processing your request' });
+  if (req.method === 'POST' && new URL(req.url).pathname === '/api/chat') {
+    const { message } = await req.json();
+    if (!message) {
+      return new Response(JSON.stringify({ error: 'Message is required' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    try {
+      const response = await pegasus.generate_response(message);
+      return new Response(JSON.stringify({ response }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    } catch (error) {
+      console.error('Error in chat route:', error);
+      return new Response(JSON.stringify({ error: 'An error occurred while processing your request' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
   }
-});
 
-app.post('/api/clear', (req, res) => {
-  pegasus.clear_conversation_history();
-  res.json({ message: 'Conversation history cleared' });
-});
+  if (req.method === 'POST' && new URL(req.url).pathname === '/api/clear') {
+    pegasus.clear_conversation_history();
+    return new Response(JSON.stringify({ message: 'Conversation history cleared' }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
 
-// Catch-all route for undefined routes
-app.use((req, res) => {
-  res.status(404).json({ error: 'Not Found' });
-});
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ error: 'Something went wrong!' });
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+  return new Response(JSON.stringify({ error: 'Not Found' }), {
+    status: 404,
+    headers: { 'Content-Type': 'application/json' },
+  });
+}
