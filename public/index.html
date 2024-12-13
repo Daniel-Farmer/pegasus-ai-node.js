@@ -79,9 +79,12 @@
     </nav>
 
     <div class="main-container">
-        <div id="file-explorer">
-            <h2>File Explorer</h2>
-            <!-- File explorer content will be dynamically populated here -->
+        <div id="chat-container">
+            <div id="chat-messages"></div>
+            <div id="user-input-container">
+                <textarea id="user-input" placeholder="Type your message..."></textarea>
+                <button id="send-button">Send</button>
+            </div>
         </div>
 
         <div id="main-content">
@@ -90,12 +93,9 @@
             </div>
         </div>
 
-        <div id="chat-container">
-            <div id="chat-messages"></div>
-            <div id="user-input-container">
-                <textarea id="user-input" placeholder="Type your message..."></textarea>
-                <button id="send-button">Send</button>
-            </div>
+        <div id="file-explorer">
+            <h2>File Explorer</h2>
+            <!-- File explorer content will be dynamically populated here -->
         </div>
     </div>
 
