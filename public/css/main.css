@@ -3,7 +3,65 @@
 body { 
     font-family: 'Montserrat', Arial, sans-serif; 
     margin: 0; 
-    padding: 70px 20px 20px; 
+    padding: 130px 20px 20px; /* Increased top padding to accommodate both topbar and navbar */
     max-width: 800px;
     margin: 0 auto;
+}
+
+.content {
+    padding-top: 20px; /* Add some space between the navbar and the content */
+}
+
+/* You can add more global styles here if needed */
+
+/* For example, you might want to add some basic text styles */
+h1, h2, h3, h4, h5, h6 {
+    color: #333;
+}
+
+p {
+    line-height: 1.6;
+    color: #666;
+}
+
+/* Add a style for links */
+a {
+    color: #c71f1f;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #a51919;
+}
+
+/* Add some basic button styles */
+button {
+    background-color: #c71f1f;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #a51919;
+}
+
+/* Add styles for input fields */
+input[type="text"], input[type="email"], textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Add a container for better content organization */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
