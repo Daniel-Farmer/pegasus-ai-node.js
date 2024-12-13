@@ -10,6 +10,11 @@ app.use(express.json());
 const OLLAMA_API_URL = process.env.OLLAMA_API_URL || 'http://localhost:11434';
 const pegasus = new Pegasus(OLLAMA_API_URL);
 
+// Root route
+app.get('/', (req, res) => {
+  res.json({ message: 'Welcome to Pegasus AI API' });
+});
+
 app.post('/api/chat', async (req, res) => {
   const { message } = req.body;
   if (!message) {
@@ -28,6 +33,17 @@ app.post('/api/chat', async (req, res) => {
 app.post('/api/clear', (req, res) => {
   pegasus.clear_conversation_history();
   res.json({ message: 'Conversation history cleared' });
+});
+
+// Catch-all route for undefined routes
+app.use((req, res) => {
+  res.status(404).json({ error: 'Not Found' });
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
 });
 
 const PORT = process.env.PORT || 3000;
