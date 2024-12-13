@@ -11,30 +11,9 @@
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="css/utils.css">
     <link rel="icon" type="image/x-icon" href="images/favicon.png">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-
-    <script type="module">
-        import { initFileExplorer } from './js/file-explorer.js';
-        import { initCodeDisplay } from './js/code-display.js';
-        import { initChat } from './js/chat.js';
-        import { testApiConnection } from './js/aiService.js';
-        import { setupToggleButtons } from './js/ui.js';
-        import { fetchFiles } from './js/fileSystem.js';
-
-        document.addEventListener('DOMContentLoaded', async () => {
-            console.log('DOM content loaded');
-            await testApiConnection();
-            initFileExplorer();
-            initCodeDisplay();
-            initChat();
-            setupToggleButtons();
-            fetchFiles();
-            console.log('All components initialized');
-        });
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 </head>
-
 <body>
     <div class="topbar">
         <div class="logo-container">
@@ -68,13 +47,11 @@
             </li>
             <li><a href="#settings">Settings</a></li>
         </ul>
-
         <div class="navbar-status">
             <div class="status-item">
                 <span class="status-indicator" style="background-color: green;"></span>
                 <span id="api-status">API: Online</span>
             </div>
-            <!-- Add more status items as needed -->
         </div>
     </nav>
 
@@ -83,13 +60,11 @@
             <h2>File Explorer</h2>
             <!-- File explorer content will be dynamically populated here -->
         </div>
-
         <div id="main-content">
             <div id="code-display">
                 <!-- Code content will be displayed here -->
             </div>
         </div>
-
         <div id="chat-container">
             <div id="chat-messages"></div>
             <div id="user-input-container">
@@ -100,39 +75,54 @@
     </div>
 
     <script type="module">
-        import { sendMessage, setCurrentModel } from './js/aiService.js';
-        import { displayMessage } from './js/chat.js';
+        import { initFileExplorer } from './js/file-explorer.js';
+        import { initCodeDisplay } from './js/code-display.js';
+        import { initChat, displayMessage } from './js/chat.js';
+        import { testApiConnection, sendMessage, setCurrentModel } from './js/aiService.js';
+        import { setupToggleButtons } from './js/ui.js';
+        import { fetchFiles } from './js/fileSystem.js';
 
-        const sendButton = document.getElementById('send-button');
-        const userInput = document.getElementById('user-input');
-        const aiModelSelect = document.getElementById('ai-model');
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('DOM content loaded');
+            await testApiConnection();
+            initFileExplorer();
+            initCodeDisplay();
+            initChat();
+            setupToggleButtons();
+            fetchFiles();
+            console.log('All components initialized');
 
-        aiModelSelect.addEventListener('change', (e) => {
-            setCurrentModel(e.target.value);
-        });
+            const sendButton = document.getElementById('send-button');
+            const userInput = document.getElementById('user-input');
+            const aiModelSelect = document.getElementById('ai-model');
 
-        sendButton.addEventListener('click', handleSendMessage);
-        userInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                handleSendMessage();
-            }
-        });
+            aiModelSelect.addEventListener('change', (e) => {
+                setCurrentModel(e.target.value);
+            });
 
-        async function handleSendMessage() {
-            const message = userInput.value.trim();
-            if (message) {
-                displayMessage('User', message);
-                userInput.value = '';
-                try {
-                    const response = await sendMessage(message);
-                    displayMessage('AI', response);
-                } catch (error) {
-                    console.error('Error sending message:', error);
-                    displayMessage('System', 'An error occurred while processing your request.');
+            sendButton.addEventListener('click', handleSendMessage);
+            userInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSendMessage();
+                }
+            });
+
+            async function handleSendMessage() {
+                const message = userInput.value.trim();
+                if (message) {
+                    displayMessage('User', message);
+                    userInput.value = '';
+                    try {
+                        const response = await sendMessage(message);
+                        displayMessage('AI', response);
+                    } catch (error) {
+                        console.error('Error sending message:', error);
+                        displayMessage('System', 'An error occurred while processing your request.');
+                    }
                 }
             }
-        }
+        });
     </script>
 </body>
 </html>
