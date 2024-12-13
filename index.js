@@ -64,7 +64,7 @@ const html = `
         function appendMessage(role, content) {
             const p = document.createElement('p');
             p.className = role;
-            p.textContent = `${role === 'user' ? 'You' : 'Pegasus'}: ${content}`;
+            p.textContent = \`\${role === 'user' ? 'You' : 'Pegasus'}: \${content}\`;
             chatbox.appendChild(p);
             chatbox.scrollTop = chatbox.scrollHeight;
         }
@@ -86,9 +86,7 @@ export default async function handler(req) {
       status: 200,
       headers: { 'Content-Type': 'text/html' },
     });
-  }
-
-  if (req.method === 'POST' && path === '/api/chat') {
+  } else if (req.method === 'POST' && path === '/api/chat') {
     const { message } = await req.json();
     if (!message) {
       return new Response(JSON.stringify({ error: 'Message is required' }), {
@@ -110,18 +108,16 @@ export default async function handler(req) {
         headers: { 'Content-Type': 'application/json' },
       });
     }
-  }
-
-  if (req.method === 'POST' && path === '/api/clear') {
+  } else if (req.method === 'POST' && path === '/api/clear') {
     pegasus.clear_conversation_history();
     return new Response(JSON.stringify({ message: 'Conversation history cleared' }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
+  } else {
+    return new Response(JSON.stringify({ error: 'Not Found' }), {
+      status: 404,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
-
-  return new Response(JSON.stringify({ error: 'Not Found' }), {
-    status: 404,
-    headers: { 'Content-Type': 'application/json' },
-  });
 }
