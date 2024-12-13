@@ -3,12 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pegasus AI Dashboard</title>
+    <title>Project Pegasus</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/topbar.css">
-    <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="css/chat.css">
+    <link rel="stylesheet" href="css/file-explorer.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/utils.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
+    <script type="module">
+        import { initFileExplorer } from './js/file-explorer.js';
+        import { initCodeDisplay } from './js/code-display.js';
+        import { initChat } from './js/chat.js';
+        import { testApiConnection } from './js/aiService.js';
+        import { setupToggleButtons } from './js/ui.js';
+        import { fetchFiles } from './js/fileSystem.js';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('DOM content loaded');
+            await testApiConnection();
+            initFileExplorer();
+            initCodeDisplay();
+            initChat();
+            setupToggleButtons();
+            fetchFiles();
+            console.log('All components initialized');
+        });
+    </script>
 </head>
+
 <body>
     <div class="topbar">
         <div class="logo-container">
@@ -42,15 +68,71 @@
             </li>
             <li><a href="#settings">Settings</a></li>
         </ul>
+
+        <div class="navbar-status">
+            <div class="status-item">
+                <span class="status-indicator" style="background-color: green;"></span>
+                <span id="api-status">API: Online</span>
+            </div>
+            <!-- Add more status items as needed -->
+        </div>
     </nav>
 
-    <div class="content">
-        <h1>Pegasus AI Dashboard</h1>
-        <div id="chatbox"></div>
-        <input type="text" id="userinput" placeholder="Type your message here...">
-        <button id="sendbtn">Send</button>
+    <div class="content-wrapper">
+        <div id="file-explorer">
+            <h2>File Explorer</h2>
+            <!-- File explorer content will be dynamically populated here -->
+        </div>
+
+        <div id="main-content">
+            <div id="code-display">
+                <!-- Code content will be displayed here -->
+            </div>
+        </div>
+
+        <div id="chat-container">
+            <div id="chat-messages"></div>
+            <div id="user-input-container">
+                <textarea id="user-input" placeholder="Type your message..."></textarea>
+                <button id="send-button">Send</button>
+            </div>
+        </div>
     </div>
 
-    <script src="script.js"></script>
+    <script type="module">
+        import { sendMessage, setCurrentModel } from './js/aiService.js';
+        import { displayMessage } from './js/chat.js';
+
+        const sendButton = document.getElementById('send-button');
+        const userInput = document.getElementById('user-input');
+        const aiModelSelect = document.getElementById('ai-model');
+
+        aiModelSelect.addEventListener('change', (e) => {
+            setCurrentModel(e.target.value);
+        });
+
+        sendButton.addEventListener('click', handleSendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSendMessage();
+            }
+        });
+
+        async function handleSendMessage() {
+            const message = userInput.value.trim();
+            if (message) {
+                displayMessage('User', message);
+                userInput.value = '';
+                try {
+                    const response = await sendMessage(message);
+                    displayMessage('AI', response);
+                } catch (error) {
+                    console.error('Error sending message:', error);
+                    displayMessage('System', 'An error occurred while processing your request.');
+                }
+            }
+        }
+    </script>
 </body>
 </html>
