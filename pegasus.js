@@ -1,6 +1,4 @@
-import fetch from 'node-fetch';
-
-class Pegasus {
+export class Pegasus {
   constructor(ollamaApiUrl) {
     this.conversation_history = [];
     this.ollamaApiUrl = ollamaApiUrl;
@@ -40,5 +38,3 @@ class Pegasus {
     this.conversation_history = [];
   }
 }
-
-export default Pegasus;
