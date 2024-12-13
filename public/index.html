@@ -21,6 +21,7 @@
         import { testApiConnection } from './js/aiService.js';
         import { setupToggleButtons } from './js/ui.js';
         import { fetchFiles } from './js/fileSystem.js';
+        import { initSettings } from './js/settings.js';
 
         document.addEventListener('DOMContentLoaded', async () => {
             console.log('DOM content loaded');
@@ -30,11 +31,11 @@
             initChat();
             setupToggleButtons();
             fetchFiles();
+            initSettings();
             console.log('All components initialized');
         });
     </script>
 </head>
-
 <body>
     <div class="topbar">
         <div class="logo-container">
@@ -74,17 +75,13 @@
                 <span class="status-indicator" style="background-color: green;"></span>
                 <span id="api-status">API: Online</span>
             </div>
-            <!-- Add more status items as needed -->
         </div>
     </nav>
 
-    <div class="main-container">
-        <div id="chat-container">
-            <div id="chat-messages"></div>
-            <div id="user-input-container">
-                <textarea id="user-input" placeholder="Type your message..."></textarea>
-                <button id="send-button">Send</button>
-            </div>
+    <div class="content-wrapper">
+        <div id="file-explorer">
+            <h2>File Explorer</h2>
+            <!-- File explorer content will be dynamically populated here -->
         </div>
 
         <div id="main-content">
@@ -93,9 +90,26 @@
             </div>
         </div>
 
-        <div id="file-explorer">
-            <h2>File Explorer</h2>
-            <!-- File explorer content will be dynamically populated here -->
+        <div id="chat-container">
+            <div id="chat-messages"></div>
+            <div id="user-input-container">
+                <textarea id="user-input" placeholder="Type your message..."></textarea>
+                <button id="send-button">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="settings-popup" class="popup">
+        <div class="popup-content">
+            <h2>Settings</h2>
+            <form id="settings-form">
+                <label for="server-name">Server Name:</label>
+                <input type="text" id="server-name" name="server-name">
+                <label for="ollama-url">Ollama URL:</label>
+                <input type="text" id="ollama-url" name="ollama-url">
+                <button type="submit">Save</button>
+            </form>
+            <button id="close-settings">Close</button>
         </div>
     </div>
 
