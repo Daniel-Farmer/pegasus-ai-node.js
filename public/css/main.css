@@ -33,16 +33,18 @@ body {
     display: flex;
     height: calc(100vh - 120px);
     margin-top: 120px;
-    background-color: #ffffff;
+    background-color: #333333;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 #chat-container {
-    width: 300px;
-    border-right: 1px solid #e0e0e0;
+    width: 30%;
+    border-right: 1px solid #555555;
     display: flex;
     flex-direction: column;
-    background-color: #f9f9f9;
+    background-color: #333333;
+    resize: horizontal;
+    overflow: auto;
 }
 
 #chat-messages {
@@ -57,16 +59,18 @@ body {
 
 #user-input-container {
     padding: 10px;
-    border-top: 1px solid #e0e0e0;
-    background-color: #ffffff;
+    border-top: 1px solid #555555;
+    background-color: #333333;
 }
 
 #user-input {
     width: 100%;
     padding: 10px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #555555;
     border-radius: 4px;
     resize: vertical;
+    background-color: #444444;
+    color: #ffffff;
 }
 
 #send-button {
@@ -93,6 +97,8 @@ body {
     background-color: #333333;
     border: 1px solid #555555;
     border-radius: 8px;
+    resize: horizontal;
+    overflow: auto;
 }
 
 #code-display {
@@ -107,11 +113,27 @@ body {
 }
 
 #file-explorer {
-    width: 250px;
+    width: 20%;
     overflow-y: auto;
-    border-left: 1px solid #e0e0e0;
+    border-left: 1px solid #555555;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: #333333;
+    color: #ffffff;
+    resize: horizontal;
+    overflow: auto;
+}
+
+/* Styles for resize handles */
+#chat-container::after,
+#main-content::after,
+#file-explorer::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -5px;
+    bottom: 0;
+    width: 10px;
+    cursor: col-resize;
 }
 
 /* Responsive design */
@@ -124,10 +146,17 @@ body {
         width: 100%;
         height: 300px;
         border: none;
-        border-bottom: 1px solid #e0e0e0;
+        border-bottom: 1px solid #555555;
+        resize: vertical;
     }
 
     #main-content {
         order: -1;
+    }
+
+    #chat-container::after,
+    #main-content::after,
+    #file-explorer::after {
+        display: none;
     }
 }
