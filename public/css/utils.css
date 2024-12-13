@@ -1,0 +1,46 @@
+/* Scrollbar styles */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1e1e1e;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}
+
+/* Styles for autocomplete */
+#autocomplete-box {
+    position: absolute;
+    bottom: 100%;
+    left: 15px;
+    right: 15px;
+    background-color: #3c3c3c;
+    border: 1px solid #555;
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+}
+
+#autocomplete-box.active {
+    display: block;
+}
+
+.autocomplete-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item.selected {
+    background-color: #4a4a4a;
+}
