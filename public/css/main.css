@@ -75,6 +75,49 @@ body {
     overflow: auto;
 }
 
+/* Code display styles */
+#code-display {
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    padding: 20px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #e0e0e0;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+#code-display pre {
+    margin: 0;
+}
+
+#code-display code {
+    display: block;
+}
+
+/* Syntax highlighting */
+.hljs-keyword {
+    color: #ff79c6;
+}
+
+.hljs-string {
+    color: #f1fa8c;
+}
+
+.hljs-comment {
+    color: #6272a4;
+}
+
+.hljs-function {
+    color: #50fa7b;
+}
+
+.hljs-number {
+    color: #bd93f9;
+}
+
 /* Styles for resize handles */
 #chat-container::after,
 #main-content::after,
