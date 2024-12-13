@@ -1,15 +1,10 @@
 {
-    "name": "pegasus-ai-node",
-    "version": "1.0.0",
-    "description": "Pegasus AI Node.js Version",
-    "main": "index.js",
-    "scripts": {
-      "start": "node index.js"
-    },
-    "dependencies": {
-      "express": "^4.17.1",
-      "dotenv": "^10.0.0",
-      "node-fetch": "^3.2.0"
-    },
-    "type": "module"
+  "name": "pegasus-ai-node",
+  "version": "1.0.0",
+  "description": "Pegasus AI Edge Version",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
   }
+}
