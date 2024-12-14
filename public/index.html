@@ -3,126 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Pegasus</title>
+    <title>Pegasus Panel</title>
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/topbar.css">
     <link rel="stylesheet" href="css/chat.css">
     <link rel="stylesheet" href="css/file-explorer.css">
     <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/topbar.css">
     <link rel="stylesheet" href="css/utils.css">
-    <link rel="icon" type="image/x-icon" href="images/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="css/layout.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="topbar">
-        <div class="logo-container">
-            <img src="images/logo.png" alt="Logo" class="logo">
-            <div class="logo-text">
-                <span class="logo-title">Pegasus Panel</span>
-                <span class="logo-slogan">Fearless Innovation</span>
-            </div>
-        </div>
-        <div class="ai-model-selector">
-            <label for="ai-model">AI Model:</label>
-            <select id="ai-model">
-                <option value="llama2">Llama 2</option>
-                <option value="codellama">Code Llama</option>
-                <option value="mistral">Mistral</option>
-            </select>
-        </div>
-    </div>
-
-    <nav class="navbar">
-        <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li class="dropdown">
-                <a href="javascript:void(0)" class="dropbtn">Tools</a>
-                <div class="dropdown-content">
-                    <a href="#tool1">Tool 1</a>
-                    <a href="#tool2">Tool 2</a>
-                    <a href="#tool3">Tool 3</a>
+    <div class="main-wrapper">
+        <div class="header-container">
+            <div class="topbar">
+                <div class="logo-container">
+                    <img src="images/logo.png" alt="Logo" class="logo">
+                    <div class="logo-text">
+                        <span class="logo-title">Pegasus Panel</span>
+                        <span class="logo-slogan">Fearless Innovation</span>
+                    </div>
                 </div>
-            </li>
-            <li><a href="#settings">Settings</a></li>
-        </ul>
-        <div class="navbar-status">
-            <div class="status-item">
-                <span class="status-indicator" style="background-color: green;"></span>
-                <span id="api-status">API: Online</span>
+                <div class="ai-model-selector">
+                    <label for="ai-model">AI Model:</label>
+                    <select id="ai-model">
+                        <option value="llama2">Llama 2</option>
+                        <option value="codellama">Code Llama</option>
+                        <option value="mistral">Mistral</option>
+                    </select>
+                </div>
             </div>
-        </div>
-    </nav>
 
-    <div class="content-wrapper">
-        <div id="file-explorer">
-            <h2>File Explorer</h2>
-            <!-- File explorer content will be dynamically populated here -->
+            <nav class="navbar">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0)" class="dropbtn">Tools</a>
+                        <div class="dropdown-content">
+                            <a href="#tool1">Tool 1</a>
+                            <a href="#tool2">Tool 2</a>
+                            <a href="#tool3">Tool 3</a>
+                        </div>
+                    </li>
+                    <li><a href="#settings">Settings</a></li>
+                </ul>
+
+                <div class="navbar-status">
+                    <div class="status-item">
+                        <span class="status-indicator" style="background-color: green;"></span>
+                        <span id="api-status">API: Online</span>
+                    </div>
+                    <!-- Add more status items as needed -->
+                </div>
+            </nav>
         </div>
-        <div id="main-content">
-            <div id="code-display">
-                <!-- Code content will be displayed here -->
+
+        <div class="content-wrapper">
+            <div id="chat-container">
+                <div id="chat-messages"></div>
+                <div id="user-input-container">
+                    <textarea id="user-input" placeholder="Type your message..."></textarea>
+                    <button id="send-button">Send</button>
+                </div>
             </div>
-        </div>
-        <div id="chat-container">
-            <div id="chat-messages"></div>
-            <div id="user-input-container">
-                <textarea id="user-input" placeholder="Type your message..."></textarea>
-                <button id="send-button">Send</button>
+
+            <div id="main-content">
+                <div id="code-display">
+                    <!-- Code content will be displayed here -->
+                </div>
+            </div>
+
+            <div id="file-explorer">
+                <h2>File Explorer</h2>
+                <!-- File explorer content will be dynamically populated here -->
             </div>
         </div>
     </div>
 
     <script type="module">
-        import { initFileExplorer } from './js/file-explorer.js';
-        import { initCodeDisplay } from './js/code-display.js';
-        import { initChat, displayMessage } from './js/chat.js';
-        import { testApiConnection, sendMessage, setCurrentModel } from './js/aiService.js';
-        import { setupToggleButtons } from './js/ui.js';
-        import { fetchFiles } from './js/fileSystem.js';
+        import { sendMessage, setCurrentModel } from './js/aiService.js';
+        import { displayMessage } from './js/chat.js';
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            console.log('DOM content loaded');
-            await testApiConnection();
-            initFileExplorer();
-            initCodeDisplay();
-            initChat();
-            setupToggleButtons();
-            fetchFiles();
-            console.log('All components initialized');
+        const sendButton = document.getElementById('send-button');
+        const userInput = document.getElementById('user-input');
+        const aiModelSelect = document.getElementById('ai-model');
 
-            const sendButton = document.getElementById('send-button');
-            const userInput = document.getElementById('user-input');
-            const aiModelSelect = document.getElementById('ai-model');
+        aiModelSelect.addEventListener('change', (e) => {
+            setCurrentModel(e.target.value);
+        });
 
-            aiModelSelect.addEventListener('change', (e) => {
-                setCurrentModel(e.target.value);
-            });
-
-            sendButton.addEventListener('click', handleSendMessage);
-            userInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSendMessage();
-                }
-            });
-
-            async function handleSendMessage() {
-                const message = userInput.value.trim();
-                if (message) {
-                    displayMessage('User', message);
-                    userInput.value = '';
-                    try {
-                        const response = await sendMessage(message);
-                        displayMessage('AI', response);
-                    } catch (error) {
-                        console.error('Error sending message:', error);
-                        displayMessage('System', 'An error occurred while processing your request.');
-                    }
-                }
+        sendButton.addEventListener('click', handleSendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSendMessage();
             }
         });
+
+        async function handleSendMessage() {
+            const message = userInput.value.trim();
+            if (message) {
+                displayMessage('User', message);
+                userInput.value = '';
+                try {
+                    const response = await sendMessage(message);
+                    displayMessage('AI', response);
+                } catch (error) {
+                    console.error('Error sending message:', error);
+                    displayMessage('System', 'An error occurred while processing your request.');
+                }
+            }
+        }
     </script>
 </body>
 </html>
