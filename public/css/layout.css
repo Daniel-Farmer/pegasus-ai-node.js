@@ -1,0 +1,46 @@
+.main-wrapper {
+    padding-top: 120px; /* Adjust this value based on the combined height of your topbar and navbar */
+}
+
+.header-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: #fff; /* Or any color that matches your design */
+}
+
+.content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 20px;
+    height: calc(100vh - 120px); /* Subtract the header height from the viewport height */
+}
+
+#chat-container {
+    grid-column: 1;
+}
+
+#main-content {
+    grid-column: 2;
+}
+
+#file-explorer {
+    grid-column: 3;
+}
+
+@media (max-width: 768px) {
+    .main-wrapper {
+        padding-top: 160px; /* Increase padding for mobile view */
+    }
+
+    .content-wrapper {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    #chat-container, #main-content, #file-explorer {
+        grid-column: 1;
+    }
+}
